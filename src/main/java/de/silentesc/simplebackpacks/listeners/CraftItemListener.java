@@ -16,7 +16,7 @@ public class CraftItemListener implements Listener {
 
         // Checks
         if (item == null) return;
-        if (item.getItemMeta() == null || !Main.getInstance().getBackpackName().equals(item.getItemMeta().getDisplayName())) return;
+        if (item.getItemMeta() == null || !item.getItemMeta().getPersistentDataContainer().has(Main.getInstance().getBackPackSizeKey(), PersistentDataType.INTEGER)) return;
 
         // Cancel if amount is more than 1 and shift click
         if (event.isShiftClick()) {

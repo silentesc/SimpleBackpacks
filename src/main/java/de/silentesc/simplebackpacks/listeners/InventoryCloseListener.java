@@ -20,7 +20,7 @@ public class InventoryCloseListener implements Listener {
         ItemStack[] itemsInBackpack;
 
         // Checks
-        if (!Main.getInstance().getBackpackName().equals(event.getView().getTitle())) return;
+        if (!Main.getInstance().getSmallBackpackDisplayName().equals(event.getView().getTitle()) && !Main.getInstance().getLargeBackpackDisplayName().equals(event.getView().getTitle())) return;
 
         itemsInBackpack =  inventory.getContents();
 

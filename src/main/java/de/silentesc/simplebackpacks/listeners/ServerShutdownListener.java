@@ -14,7 +14,7 @@ public class ServerShutdownListener {
             ItemStack[] itemsInBackpack = openInventory.getTopInventory().getContents();
 
             // Checks
-            if (!Main.getInstance().getBackpackName().equals(openInventory.getTitle())) continue;
+            if (!Main.getInstance().getSmallBackpackDisplayName().equals(openInventory.getTitle()) && !Main.getInstance().getLargeBackpackDisplayName().equals(openInventory.getTitle())) continue;
 
             // Check and save data
             Main.getInstance().getManager().getBackpackUtils().saveBackpackData(player, itemsInBackpack, itemInHand);

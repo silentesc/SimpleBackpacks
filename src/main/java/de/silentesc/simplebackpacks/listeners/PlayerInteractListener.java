@@ -12,20 +12,24 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Objects;
+
 public class PlayerInteractListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final int backpackSize = 9*3;
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
         ItemMeta itemMeta;
+        int backpackSize;
 
         // Checks
         if (item == null) return;
         itemMeta = item.getItemMeta();
         if (itemMeta == null) return;
-        if (!Main.getInstance().getBackpackName().equals(itemMeta.getDisplayName())) return;
+        if (!item.getItemMeta().getPersistentDataContainer().has(Main.getInstance().getBackPackSizeKey(), PersistentDataType.INTEGER)) return;
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+
+        backpackSize = Objects.requireNonNull(itemMeta.getPersistentDataContainer().get(Main.getInstance().getBackPackSizeKey(), PersistentDataType.INTEGER));
 
         // Cancel event
         event.setCancelled(true);
@@ -41,7 +45,7 @@ public class PlayerInteractListener implements Listener {
         }
 
         // Create inventory
-        Inventory inventory = Bukkit.createInventory(player, backpackSize, Main.getInstance().getBackpackName());
+        Inventory inventory = Bukkit.createInventory(player, backpackSize, (backpackSize > 9*3) ? Main.getInstance().getLargeBackpackDisplayName() : Main.getInstance().getSmallBackpackDisplayName());
         inventory.setContents(itemsInBackpack);
         player.openInventory(inventory);
     }

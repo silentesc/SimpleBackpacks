@@ -10,14 +10,18 @@ public final class Main extends JavaPlugin {
 
     // Global variables
     private final String prefix;
-    private final String backpackName;
+    private final String smallBackpackDisplayName;
+    private final String largeBackpackDisplayName;
     private final NamespacedKey backpackDataKey;
+    private final NamespacedKey backPackSizeKey; // Also used to check if item is a backpack
 
     public Main() {
         instance = this;
         prefix = "§7[§eSimpleBackpacks§7] ";
-        backpackName = "§9Backpack";
+        smallBackpackDisplayName = "§9Small Backpack";
+        largeBackpackDisplayName = "§9Large Backpack";
         backpackDataKey = new NamespacedKey(this, "backpack_data");
+        backPackSizeKey = new NamespacedKey(this, "backpack_size");
     }
 
     @Override
@@ -45,11 +49,19 @@ public final class Main extends JavaPlugin {
         return prefix;
     }
 
-    public String getBackpackName() {
-        return backpackName;
+    public String getSmallBackpackDisplayName() {
+        return smallBackpackDisplayName;
+    }
+
+    public String getLargeBackpackDisplayName() {
+        return largeBackpackDisplayName;
     }
 
     public NamespacedKey getBackpackDataKey() {
         return backpackDataKey;
+    }
+
+    public NamespacedKey getBackPackSizeKey() {
+        return backPackSizeKey;
     }
 }

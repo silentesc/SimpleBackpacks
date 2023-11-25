@@ -4,7 +4,8 @@ import de.silentesc.simplebackpacks.listeners.CraftItemListener;
 import de.silentesc.simplebackpacks.listeners.InventoryClickListener;
 import de.silentesc.simplebackpacks.listeners.InventoryCloseListener;
 import de.silentesc.simplebackpacks.listeners.PlayerInteractListener;
-import de.silentesc.simplebackpacks.recipes.BackpackRecipe;
+import de.silentesc.simplebackpacks.recipes.LargeBackpackRecipe;
+import de.silentesc.simplebackpacks.recipes.SmallBackpackRecipe;
 import de.silentesc.simplebackpacks.utils.BackpackUtils;
 import de.silentesc.simplebackpacks.utils.JavaUtils;
 import de.silentesc.simplebackpacks.utils.ShortMessages;
@@ -22,8 +23,10 @@ public class Manager {
     private JavaUtils javaUtils;
     private ShortMessages shortMessages;
     private BackpackUtils backpackUtils;
+
     // Recipes
-    private BackpackRecipe backpackRecipe;
+    private SmallBackpackRecipe smallBackpackRecipe;
+    private LargeBackpackRecipe largeBackpackRecipe;
 
     public Manager() {
         initialize();
@@ -33,7 +36,8 @@ public class Manager {
     // Init all classes like utils etc.
     private void initialize() {
         javaUtils = new JavaUtils();
-        backpackRecipe = new BackpackRecipe();
+        smallBackpackRecipe = new SmallBackpackRecipe();
+        largeBackpackRecipe = new LargeBackpackRecipe();
         shortMessages = new ShortMessages();
         backpackUtils = new BackpackUtils();
     }
@@ -47,7 +51,8 @@ public class Manager {
         pluginManager.registerEvents(new InventoryCloseListener(), Main.getInstance());
         pluginManager.registerEvents(new InventoryClickListener(), Main.getInstance());
         // Recipes
-        backpackRecipe.createBackpackRecipe();
+        smallBackpackRecipe.createSmallBackpackRecipe();
+        largeBackpackRecipe.createLargeBackpackRecipe();
     }
 
     // Getter

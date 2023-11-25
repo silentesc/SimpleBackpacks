@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class BackpackUtils {
     public void saveBackpackData(Player player, ItemStack[] contents, ItemStack backpackItem) {
         // If the backpack in main hand cannot be found drop stuff
-        if (backpackItem.getItemMeta() == null || !Main.getInstance().getBackpackName().equals(backpackItem.getItemMeta().getDisplayName())) {
+        if (backpackItem.getItemMeta() == null || !backpackItem.getItemMeta().getPersistentDataContainer().has(Main.getInstance().getBackPackSizeKey(), PersistentDataType.INTEGER)) {
             // Send error message
             Main.getInstance().getManager().getShortMessages()
                     .sendFailMessage(player, "Backpack cannot be found in your main hand, items have been given back into your inventory.");
