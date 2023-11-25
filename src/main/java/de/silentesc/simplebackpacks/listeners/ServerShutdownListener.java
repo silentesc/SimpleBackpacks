@@ -17,7 +17,7 @@ public class ServerShutdownListener {
             if (!Main.getInstance().getSmallBackpackDisplayName().equals(openInventory.getTitle()) && !Main.getInstance().getLargeBackpackDisplayName().equals(openInventory.getTitle())) continue;
 
             // Check and save data
-            Main.getInstance().getManager().getBackpackUtils().saveBackpackData(player, itemsInBackpack, itemInHand);
+            Main.getInstance().getBackpackUtils().saveBackpackData(player, itemsInBackpack, itemInHand);
         }
     }
 }

@@ -40,7 +40,7 @@ public class PlayerInteractListener implements Listener {
         if (fullDataString != null) {
             for (int i = 0; i < backpackSize; i++) {
                 String itemStr = fullDataString.split(";")[i];
-                itemsInBackpack[i] = Main.getInstance().getManager().getJavaUtils().stringToItem(itemStr);
+                itemsInBackpack[i] = Main.getInstance().getJavaUtils().stringToItem(itemStr);
             }
         }
 

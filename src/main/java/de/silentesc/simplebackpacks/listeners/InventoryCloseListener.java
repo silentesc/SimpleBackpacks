@@ -25,6 +25,6 @@ public class InventoryCloseListener implements Listener {
         itemsInBackpack =  inventory.getContents();
 
         // Check and save backpack data
-        Main.getInstance().getManager().getBackpackUtils().saveBackpackData(player, itemsInBackpack, itemInPlayerHand);
+        Main.getInstance().getBackpackUtils().saveBackpackData(player, itemsInBackpack, itemInPlayerHand);
     }
 }

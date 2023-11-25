@@ -34,7 +34,7 @@ public class CraftItemListener implements Listener {
         }
 
         // Generate random unique string
-        int randomNumber = Main.getInstance().getManager().getJavaUtils().randomNumber(100000000, 999999999);
+        int randomNumber = Main.getInstance().getJavaUtils().randomNumber(100000000, 999999999);
         long timestamp = System.currentTimeMillis();
         String uniqueString = String.format("%d.%d", randomNumber, timestamp);
 

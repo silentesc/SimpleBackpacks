@@ -14,7 +14,7 @@ public class BackpackUtils {
         // If the backpack in main hand cannot be found drop stuff
         if (backpackItem.getItemMeta() == null || !backpackItem.getItemMeta().getPersistentDataContainer().has(Main.getInstance().getBackPackSizeKey(), PersistentDataType.INTEGER)) {
             // Send error message
-            Main.getInstance().getManager().getShortMessages()
+            Main.getInstance().getShortMessages()
                     .sendFailMessage(player, "Backpack cannot be found in your main hand, items have been given back into your inventory.");
             // Add items to inventory or drop
             for (ItemStack content : contents) {
@@ -31,7 +31,7 @@ public class BackpackUtils {
         for (ItemStack content : contents) {
             ItemStack currentItem = content;
             if (currentItem == null) currentItem = new ItemStack(Material.AIR);
-            String itemStr = Main.getInstance().getManager().getJavaUtils().itemToString(currentItem);
+            String itemStr = Main.getInstance().getJavaUtils().itemToString(currentItem);
             fullDataString.append(itemStr).append(";");
         }
 
