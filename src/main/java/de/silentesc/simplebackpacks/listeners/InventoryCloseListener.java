@@ -16,15 +16,24 @@ public class InventoryCloseListener implements Listener {
 
         Player player = (Player) event.getPlayer();
         Inventory inventory = event.getInventory();
-        ItemStack itemInPlayerHand = player.getInventory().getItemInMainHand();
-        ItemStack[] itemsInBackpack;
+        ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
+        ItemStack itemInOffHand = player.getInventory().getItemInOffHand();
+        ItemStack backpackItem;
+        ItemStack[] itemsInBackpack = inventory.getContents();
 
         // Checks
         if (!Main.getInstance().getSmallBackpackDisplayName().equals(event.getView().getTitle()) && !Main.getInstance().getLargeBackpackDisplayName().equals(event.getView().getTitle())) return;
-
-        itemsInBackpack =  inventory.getContents();
+        // !!! Check mainHand first because the game priors it
+        if (Main.getInstance().getBackpackUtils().itemIsBackpack(itemInMainHand))
+            backpackItem = itemInMainHand;
+        else if (Main.getInstance().getBackpackUtils().itemIsBackpack(itemInOffHand))
+            backpackItem = itemInOffHand;
+        else {
+            Main.getInstance().getBackpackUtils().handleBackpackItemNotFound(player, itemsInBackpack);
+            return;
+        }
 
         // Check and save backpack data
-        Main.getInstance().getBackpackUtils().saveBackpackData(player, itemsInBackpack, itemInPlayerHand);
+        Main.getInstance().getBackpackUtils().saveBackpackData(player, itemsInBackpack, backpackItem);
     }
 }

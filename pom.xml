@@ -6,7 +6,7 @@
 
     <groupId>de.silentesc</groupId>
     <artifactId>SimpleBackpacks</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>SimpleBackpacks</name>

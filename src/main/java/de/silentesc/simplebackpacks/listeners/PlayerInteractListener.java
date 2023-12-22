@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -19,6 +20,7 @@ public class PlayerInteractListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
+        InventoryView openInventory = player.getOpenInventory();
         ItemMeta itemMeta;
         int backpackSize;
 
@@ -28,6 +30,7 @@ public class PlayerInteractListener implements Listener {
         if (itemMeta == null) return;
         if (!item.getItemMeta().getPersistentDataContainer().has(Main.getInstance().getBackPackSizeKey(), PersistentDataType.INTEGER)) return;
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (Main.getInstance().getSmallBackpackDisplayName().equals(openInventory.getTitle()) || Main.getInstance().getLargeBackpackDisplayName().equals(openInventory.getTitle())) return;
 
         backpackSize = Objects.requireNonNull(itemMeta.getPersistentDataContainer().get(Main.getInstance().getBackPackSizeKey(), PersistentDataType.INTEGER));
 

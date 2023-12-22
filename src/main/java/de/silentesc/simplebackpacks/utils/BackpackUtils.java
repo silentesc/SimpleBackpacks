@@ -10,19 +10,27 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.HashMap;
 
 public class BackpackUtils {
+    public boolean itemIsBackpack(ItemStack backpackItem) {
+        return backpackItem.getItemMeta() != null && backpackItem.getItemMeta().getPersistentDataContainer().has(Main.getInstance().getBackPackSizeKey(), PersistentDataType.INTEGER);
+    }
+
+    public void handleBackpackItemNotFound(Player player, ItemStack[] contents) {
+        // Send error message
+        Main.getInstance().getShortMessages()
+                .sendFailMessage(player, "Backpack cannot be found, items have been given back into your inventory.");
+        // Add items to inventory or drop
+        for (ItemStack content : contents) {
+            if (content == null) continue;
+            HashMap<Integer, ItemStack> notFittingItems = player.getInventory().addItem(content);
+            for (ItemStack i : notFittingItems.values())
+                player.getWorld().dropItem(player.getLocation(), i);
+        }
+    }
+
     public void saveBackpackData(Player player, ItemStack[] contents, ItemStack backpackItem) {
         // If the backpack in main hand cannot be found drop stuff
-        if (backpackItem.getItemMeta() == null || !backpackItem.getItemMeta().getPersistentDataContainer().has(Main.getInstance().getBackPackSizeKey(), PersistentDataType.INTEGER)) {
-            // Send error message
-            Main.getInstance().getShortMessages()
-                    .sendFailMessage(player, "Backpack cannot be found in your main hand, items have been given back into your inventory.");
-            // Add items to inventory or drop
-            for (ItemStack content : contents) {
-                if (content == null) continue;
-                HashMap<Integer, ItemStack> notFittingItems = player.getInventory().addItem(content);
-                for (ItemStack i : notFittingItems.values())
-                    player.getWorld().dropItem(player.getLocation(), i);
-            }
+        if (backpackItem.getItemMeta() == null || !itemIsBackpack(backpackItem)) {
+            handleBackpackItemNotFound(player, contents);
             return;
         }
 
