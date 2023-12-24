@@ -51,5 +51,8 @@ public class PlayerInteractListener implements Listener {
         Inventory inventory = Bukkit.createInventory(player, backpackSize, (backpackSize > 9*3) ? Main.getInstance().getLargeBackpackDisplayName() : Main.getInstance().getSmallBackpackDisplayName());
         inventory.setContents(itemsInBackpack);
         player.openInventory(inventory);
+
+        // Add backpack item to hashmap
+        Main.getInstance().getBackpackUtils().addOpenBackpack(player, item);
     }
 }

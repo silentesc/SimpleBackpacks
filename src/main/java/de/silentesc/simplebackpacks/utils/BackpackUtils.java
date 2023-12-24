@@ -8,8 +8,28 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class BackpackUtils {
+    private final HashMap<UUID, ItemStack> openBackpacks = new HashMap<>();
+
+    public void addOpenBackpack(Player player, ItemStack backpackItem) {
+        UUID playerUUID = player.getUniqueId();
+        if (openBackpacks.containsKey(playerUUID)) {
+            System.out.printf("%s opened a backpack but is still in the openBackpacks HashMap%n", playerUUID);
+            openBackpacks.remove(playerUUID);
+        }
+        openBackpacks.put(playerUUID, backpackItem);
+    }
+
+    public void removeOpenBackpack(UUID playerUUID) {
+        openBackpacks.remove(playerUUID);
+    }
+
+    public ItemStack getBackpackItemFromPlayer(UUID playerUUID) {
+        return openBackpacks.get(playerUUID);
+    }
+
     public boolean itemIsBackpack(ItemStack backpackItem) {
         return backpackItem.getItemMeta() != null && backpackItem.getItemMeta().getPersistentDataContainer().has(Main.getInstance().getBackPackSizeKey(), PersistentDataType.INTEGER);
     }
@@ -28,6 +48,9 @@ public class BackpackUtils {
     }
 
     public void saveBackpackData(Player player, ItemStack[] contents, ItemStack backpackItem) {
+        // Remove backpack from open hashmap
+        Main.getInstance().getBackpackUtils().removeOpenBackpack(player.getUniqueId());
+
         // If the backpack in main hand cannot be found drop stuff
         if (backpackItem.getItemMeta() == null || !itemIsBackpack(backpackItem)) {
             handleBackpackItemNotFound(player, contents);

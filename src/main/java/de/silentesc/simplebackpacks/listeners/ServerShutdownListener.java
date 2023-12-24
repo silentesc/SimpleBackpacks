@@ -10,22 +10,11 @@ public class ServerShutdownListener {
     public void onShutdown() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             InventoryView openInventory = player.getOpenInventory();
-            ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
-            ItemStack itemInOffHand = player.getInventory().getItemInOffHand();
-            ItemStack backpackItem;
             ItemStack[] itemsInBackpack = openInventory.getTopInventory().getContents();
+            ItemStack backpackItem = Main.getInstance().getBackpackUtils().getBackpackItemFromPlayer(player.getUniqueId());
 
             // Checks
             if (!Main.getInstance().getSmallBackpackDisplayName().equals(openInventory.getTitle()) && !Main.getInstance().getLargeBackpackDisplayName().equals(openInventory.getTitle())) continue;
-            // !!! Check mainHand first because the game priors it
-            if (Main.getInstance().getBackpackUtils().itemIsBackpack(itemInMainHand))
-                backpackItem = itemInMainHand;
-            else if (Main.getInstance().getBackpackUtils().itemIsBackpack(itemInOffHand))
-                backpackItem = itemInOffHand;
-            else {
-                Main.getInstance().getBackpackUtils().handleBackpackItemNotFound(player, itemsInBackpack);
-                return;
-            }
 
             // Check and save data
             Main.getInstance().getBackpackUtils().saveBackpackData(player, itemsInBackpack, backpackItem);
