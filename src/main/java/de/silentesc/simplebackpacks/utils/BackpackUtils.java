@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -30,7 +31,8 @@ public class BackpackUtils {
         return openBackpacks.get(playerUUID);
     }
 
-    public boolean itemIsBackpack(ItemStack backpackItem) {
+    public boolean itemIsBackpack(@Nullable ItemStack backpackItem) {
+        if (backpackItem == null) return false;
         return backpackItem.getItemMeta() != null && backpackItem.getItemMeta().getPersistentDataContainer().has(Main.getInstance().getBackPackSizeKey(), PersistentDataType.INTEGER);
     }
 

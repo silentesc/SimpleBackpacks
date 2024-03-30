@@ -11,13 +11,25 @@ public class InventoryClickListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         ItemStack clickedItem = event.getCurrentItem();
+        int hotbarSlot = event.getHotbarButton();
 
-        // Checks
-        if (clickedItem == null) return;
-        if (!Main.getInstance().getSmallBackpackDisplayName().equals(event.getView().getTitle()) && !Main.getInstance().getLargeBackpackDisplayName().equals(event.getView().getTitle())) return;
-        if (clickedItem.getItemMeta() == null || !clickedItem.getItemMeta().getPersistentDataContainer().has(Main.getInstance().getBackPackSizeKey(), PersistentDataType.INTEGER)) return;
+        // Return if event not in backpack
+        if (!Main.getInstance().getSmallBackpackDisplayName().equals(event.getView().getTitle()) &&
+                !Main.getInstance().getLargeBackpackDisplayName().equals(event.getView().getTitle()))
+            return;
 
-        // Cancel event
-        event.setCancelled(true);
+        // Is not hotkey click
+        if (hotbarSlot == -1) {
+            if (clickedItem == null) return;
+            if (clickedItem.getItemMeta() == null || !clickedItem.getItemMeta().getPersistentDataContainer().has(Main.getInstance().getBackPackSizeKey(), PersistentDataType.INTEGER)) return;
+            event.setCancelled(true);
+        }
+        // Is hotkey click
+        else {
+            ItemStack itemInHotbar = event.getWhoClicked().getInventory().getItem(hotbarSlot);
+            if (Main.getInstance().getBackpackUtils().itemIsBackpack(itemInHotbar) || Main.getInstance().getBackpackUtils().itemIsBackpack(clickedItem)) {
+                event.setCancelled(true);
+            }
+        }
     }
 }
